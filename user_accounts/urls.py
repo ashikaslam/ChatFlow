@@ -5,6 +5,7 @@ from django.urls import path
 from. import views
 urlpatterns = [
   
+  path('landing/', views.landing.as_view(), name='landing'),
   path('signup/', views.UserSignupView.as_view(), name='user_signup'),
   path('varifi_otp/', views.Varifi_otp_.as_view(), name='varifi_otp'),
   path('login/', views.User_login.as_view(), name='login'),

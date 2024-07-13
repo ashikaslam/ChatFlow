@@ -140,3 +140,27 @@ class Logout(APIView):  # 8
 
 
 
+
+
+
+class landing(APIView):  #  
+    authentication_classes = [JWTAuthentication, SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+            try:
+                user = request.user
+                Refresh = RefreshToken.for_user(user)
+                name = f"{user.first_name} {user.last_name}"
+                return Response({'message': 'data load successful.', 
+                                 'user_id':  user.id,
+                                 'name':name, 
+                                 "access": str(Refresh.access_token), 
+                                 "status": 1,
+                                 'refresh': str(Refresh)
+                                
+                                 
+                            
+                                 }, status=status.HTTP_200_OK)
+            except Exception as e:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+        

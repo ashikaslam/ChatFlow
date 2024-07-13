@@ -175,8 +175,8 @@ EMAIL_PORT = 587
 
 SIMPLE_JWT = {
     #............................................
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=3),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=300),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
     "ROTATE_REFRESH_TOKENS": True, # when i user use the refresh  to get a new refresh token then the old one will be invalied 
     "BLACKLIST_AFTER_ROTATION": True,
     #............................................
