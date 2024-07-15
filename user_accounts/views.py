@@ -31,6 +31,7 @@ class UserSignupView(APIView):
             user = serializer.save()  
             if user:
                  otp = Utility_function.generate_otp()
+                 print(otp)
                  token1 = problem_solver.generate_token()
                  token2 = problem_solver.generate_token()
                  email = serializer.validated_data['email']
@@ -68,13 +69,20 @@ class Varifi_otp_(APIView):  # 2
                 user.is_active = True
                 user.save()
                 Refresh = RefreshToken.for_user(user)
-               
+                first_name=user.first_name
+                last_name=user.last_name
+                email=user.email
                 # this line not for production just for testing
                 login(request,  user)
                 return Response({'message': 'registration successful.', 
                                  'user_id':  user.id, 
                                  "access": str(Refresh.access_token), 
                                  "status": 1,
+                                 "first_name":user.first_name,
+                                 "last_name":user.last_name,
+                                 "email":user.email,
+                                 'profile_id':user.profile.id,
+                                 'profile_pic':user.profile.profile_picture,
                                  'refresh': str(Refresh)
                                  }, status=status.HTTP_200_OK)
 
@@ -102,6 +110,7 @@ class User_login(APIView):
             user = models.User.objects.get(email=email)
             if user:
                  otp = Utility_function.generate_otp()
+                 print(otp)
                  token1 = problem_solver.generate_token()
                  token2 = problem_solver.generate_token()
                  email = serializer.validated_data['email']
@@ -122,12 +131,8 @@ class User_login(APIView):
 
 
 class Logout(APIView):  # 8
-    authentication_classes = [JWTAuthentication, SessionAuthentication]
-    permission_classes = [IsAuthenticated]
     serializer_class = serializers.logoutSerializer
-
     def post(self, request):
-        logout(request)  # this line for testing not for production
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             try:
@@ -150,10 +155,17 @@ class landing(APIView):  #
             try:
                 user = request.user
                 Refresh = RefreshToken.for_user(user)
-                name = f"{user.first_name} {user.last_name}"
+                
+                first_name=user.first_name
+                last_name=user.last_name
+                email=user.email
                 return Response({'message': 'data load successful.', 
                                  'user_id':  user.id,
-                                 'name':name, 
+                                 'profile_id':user.profile.id,
+                                 "first_name":user.first_name,
+                                 "last_name":user.last_name,
+                                 "email":user.email,
+                                 'profile_pic':user.profile.profile_picture,
                                  "access": str(Refresh.access_token), 
                                  "status": 1,
                                  'refresh': str(Refresh)

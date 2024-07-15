@@ -27,6 +27,7 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('admin/', admin.site.urls),
     path('auth/', include('user_accounts.urls')),
+    path('profile/', include('user_profile.urls')),
     # path('post/', include('Post.urls')),
     # path('reaction/', include('Reaction.urls')),
     # path('user_profile/', include('user_profile.urls')),
